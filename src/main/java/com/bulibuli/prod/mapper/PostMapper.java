@@ -3,7 +3,6 @@ package com.bulibuli.prod.mapper;
 import com.bulibuli.prod.dto.PostDTO;
 import com.bulibuli.prod.entity.PostEntity;
 import com.bulibuli.prod.entity.TagEntity;
-import com.bulibuli.prod.entity.UsersPostsEntity;
 import com.bulibuli.prod.service.PostService;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +20,13 @@ public class PostMapper {
 
     public PostDTO toPostDTO(PostEntity post) {
         PostDTO postDTO = new PostDTO();
-        postDTO.setId(post.getId());
-        postDTO.setContent(post.getContent());
+        postDTO.setPostId(post.getId());
+        postDTO.setPostContent(post.getContent());
         List<String> tags = new ArrayList<>();
         for (TagEntity tag: post.getTags())
             tags.add(tag.getTag());
-        postDTO.setTags(tags);
-        postDTO.setCreatorLogin(post.getCreator().getLogin());
+        postDTO.setPostTags(tags);
+        postDTO.setUserLogin(post.getCreator().getLogin());
         postDTO.setCreatedAt(post.getCreatedAt());
         postDTO.setLikesCount(post.getLikes());
         postDTO.setDislikesCount(post.getDislikes());

@@ -7,6 +7,7 @@ import com.bulibuli.prod.mapper.UserMapper;
 import com.bulibuli.prod.service.CountryService;
 import com.bulibuli.prod.service.JwtService;
 import com.bulibuli.prod.service.UserService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterDTO registerDTO) {
         if (countryService.existsByAlpha2(registerDTO.getAlpha2())) {
             if (userService.checkValidRegistration(registerDTO)) {
                 UserEntity user = new UserEntity();

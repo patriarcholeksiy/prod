@@ -6,6 +6,7 @@ import com.bulibuli.prod.entity.UserEntity;
 import com.bulibuli.prod.mapper.UserMapper;
 import com.bulibuli.prod.service.CountryService;
 import com.bulibuli.prod.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class UserController {
@@ -52,36 +52,36 @@ public class UserController {
     }
 
     @PatchMapping("/me/profile")
-    public ResponseEntity<?> updateUserProfile(@RequestBody UpdateUserDTO updateDTO, Principal principal) {
+    public ResponseEntity<?> updateUserProfile(@Valid @RequestBody UpdateUserDTO updateDTO, Principal principal) {
         if (principal != null) {
             try {
                 UserEntity user = userService.getByUsername(principal.getName());
-                if (updateDTO.getAlpha2() != null) {
-                    if (!countryService.existsByAlpha2(updateDTO.getAlpha2())) {
+                if (updateDTO.getCountryAlpha2() != null) {
+                    if (!countryService.existsByAlpha2(updateDTO.getCountryAlpha2())) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Страны с кодом " +
-                                updateDTO.getAlpha2() + " не существует");
+                                updateDTO.getCountryAlpha2() + " не существует");
                     }
-                    user.setAlpha2(updateDTO.getAlpha2());
+                    user.setAlpha2(updateDTO.getCountryAlpha2());
                 }
 
-                if (updateDTO.getIsPublic() != null) {
-                    user.setPublic(updateDTO.getIsPublic());
+                if (updateDTO.getUserIsPublic() != null) {
+                    user.setPublic(updateDTO.getUserIsPublic());
                 }
 
-                if (updateDTO.getPhoneNumber() != null) {
-                    if (!updateDTO.getPhoneNumber().equals(user.getPhoneNumber())) {
-                        if (userService.existByPhoneNumber(updateDTO.getPhoneNumber())) {
+                if (updateDTO.getUserPhone() != null) {
+                    if (!updateDTO.getUserPhone().equals(user.getPhoneNumber())) {
+                        if (userService.existByPhoneNumber(updateDTO.getUserPhone())) {
                             return ResponseEntity.status(HttpStatus.CONFLICT).body("Этот номер телефона занят");
                         }
-                        user.setPhoneNumber(updateDTO.getPhoneNumber());
+                        user.setPhoneNumber(updateDTO.getUserPhone());
                     }
                 }
 
-                if (updateDTO.getImage() != null) {
-                    if (!userService.checkValidImage(updateDTO.getImage())) {
+                if (updateDTO.getUserImage() != null) {
+                    if (!userService.checkValidImage(updateDTO.getUserImage())) {
                         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Длина ссылки на аватар пользователя превышает допустимый лимит");
                     }
-                    user.setImage(updateDTO.getImage());
+                    user.setImage(updateDTO.getUserImage());
                 }
 
                 user = userService.save(user);
@@ -94,7 +94,7 @@ public class UserController {
     }
 
     @PostMapping("/me/updatePassword")
-    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordDTO passwordDTO, Principal principal) {
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordDTO passwordDTO, Principal principal) {
         if (principal != null && userService.existByLogin(principal.getName())) {
             UserEntity user = userService.getByUsername(principal.getName());
             if (passwordEncoder.matches(passwordDTO.getOldPassword(), user.getPassword())) {

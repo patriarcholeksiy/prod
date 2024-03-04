@@ -4,18 +4,17 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 public class PostDTO {
 
-    private Long id;
+    private Long postId;
 
-    private String content;
+    private String postContent;
 
-    private List<String> tags;
+    private List<String> postTags;
 
-    private String creatorLogin;
+    private String userLogin;
 
     private LocalDateTime createdAt;
 

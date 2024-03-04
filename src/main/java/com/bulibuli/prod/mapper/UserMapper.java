@@ -4,20 +4,18 @@ import com.bulibuli.prod.dto.UserDTO;
 import com.bulibuli.prod.entity.UserEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class UserMapper {
 
     public UserDTO toUserDTO(UserEntity user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
-        userDTO.setLogin(user.getLogin());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setAlpha2(user.getAlpha2());
-        userDTO.setPublic(user.isPublic());
-        userDTO.setPhoneNumber(user.getPhoneNumber());
-        userDTO.setImage(user.getImage());
+        userDTO.setUserLogin(user.getLogin());
+        userDTO.setUserEmail(user.getEmail());
+        userDTO.setCountryAlpha2(user.getAlpha2());
+        userDTO.setUserIsPublic(user.isPublic());
+        userDTO.setUserPhone(user.getPhoneNumber());
+        userDTO.setUserImage(user.getImage());
         return userDTO;
     }
 

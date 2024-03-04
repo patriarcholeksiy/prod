@@ -7,16 +7,16 @@ public class UserDTO {
 
     private Long id;
 
-    private String login;
+    private String userLogin;
 
-    private String email;
+    private String userEmail;
 
-    private String alpha2;
+    private String countryAlpha2;
 
-    private boolean isPublic;
+    private boolean userIsPublic;
 
-    private String phoneNumber;
+    private String userPhone;
 
-    private String image;
+    private String userImage;
 
 }
