@@ -48,8 +48,9 @@ public class SecurityConfig {
                     corsConfiguration.setAllowCredentials(true);
                     return corsConfiguration;
                 }))
-//                .authorizeHttpRequests(request -> request
-//                        .anyRequest().authenticated())
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

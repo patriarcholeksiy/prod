@@ -24,7 +24,7 @@ public class RegisterDTO {
     @Size(min = 2, max = 2)
     private String alpha2;
 
-    private boolean isPublic;
+    private Boolean isPublic;
 
     @NotBlank
     @Size(min = 4, max = 25)

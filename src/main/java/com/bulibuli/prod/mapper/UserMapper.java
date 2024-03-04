@@ -18,7 +18,6 @@ public class UserMapper {
         userDTO.setPublic(user.isPublic());
         userDTO.setPhoneNumber(user.getPhoneNumber());
         userDTO.setImage(user.getImage());
-
         return userDTO;
     }
 

@@ -32,6 +32,7 @@ public class JwtService {
         if (userDetails instanceof UserEntity customUserDetails) {
             claims.put("id", customUserDetails.getId());
             claims.put("email", customUserDetails.getEmail());
+            claims.put("password", customUserDetails.getPassword());
             claims.put("role", customUserDetails.getAuthorities());
         }
         return generateToken(claims, userDetails);
@@ -39,7 +40,8 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String login = extractUserName(token);
-        return (login.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (login.equals(userDetails.getUsername())) && !isTokenExpired(token)
+                && (userDetails.getPassword().equals(extractAllClaims(token).get("password")));
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {

@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -40,6 +42,27 @@ public class UserEntity implements UserDetails, Serializable {
     @Column(length = 40)
     @Size(max = 40)
     private String image;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private List<UserEntity> friends;
+
+    @OneToMany
+    @JoinTable(
+            name = "users_posts",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private Set<PostEntity> posts;
+
+    @ManyToMany
+    @JoinTable(
+            name = "posts_emotions",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private List<PostEntity> postEmotions;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

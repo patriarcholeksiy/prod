@@ -4,6 +4,7 @@ import com.bulibuli.prod.entity.UserEntity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
@@ -12,4 +13,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByLogin(String login);
 
     boolean existsByLoginOrEmailOrPhoneNumber(@Size(min = 3, max = 30) String login, @Email String email, String phoneNumber);
+
+    boolean existsByLogin(String login);
+
+    boolean existsByPhoneNumber(String phoneNumber);
+
 }
